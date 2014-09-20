@@ -1,6 +1,7 @@
-
-" Bundles {{{
-
+" Bundle ------------------------------------------------------------------ {{{
+" Sun Sep 21 00:46:43 CST 2014
+" refer https://github.com/connermcd/dotfiles.git
+" and  https://bitbucket.org/sjl/dotfiles
 set nocompatible
 filetype off
 
@@ -17,15 +18,16 @@ Bundle 'payneseu/nerdtree'
 Bundle 'Townk/vim-autoclose'
 Bundle 'majutsushi/tagbar'
 Bundle 'vim-scripts/tcd.vim'
-
 Bundle 'vim-scripts/cmdline-completion'
 Bundle 'vim-scripts/vcscommand.vim'
 Bundle 'Lokaltog/vim-easymotion'
+Bundle 'vim-scripts/YankRing.vim'
+
+
 call vundle#end()
+" }}}
 
-"}}}
-
-
+" Plugins Configuration --------------------------------------------------- {{{
 " Fuzzy Finder ------------------------------------------------------------ {{{
 let g:fuf_modesDisable = []
 let g:fuf_mrufile_maxItem = 400
@@ -139,6 +141,7 @@ let g:ycm_confirm_extra_conf = 1
 	let g:airline_section_z = '%c, %l/%L %p%%'
 	let g:airline_section_warning = '' " (syntastic, whitespace)
 
+set laststatus=2
 set statusline=\ %<%F%m%=[%-.50{CurDir()}]\ %y\ %c,\ %l/%L\ \ %p%%\ 
 function! CurDir()
 	let curdir = substitute(getcwd(), $HOME, "~", "g")
@@ -161,14 +164,74 @@ let Tlist_Ctags_Cmd="/usr/local/bin/ctags"
 " Tcd --------------------------------------------------------------------- {{{
 cabbrev cd Tcd
 " }}}
+" cmdline-completion ------------------------------------------------------ {{{
+"http://foocoder.com/blog/mei-ri-vimcha-jian-suo-jin-xian-shi-vim-indent-guides.html/
+cmap <C-J> <Plug>CmdlineCompletionBackward
+cmap <C-K> <Plug>CmdlineCompletionForward
+" }}}
+" VSCCommand -------------------------------------------------------------- {{{
+"" ==============  VCSCommand.vim =====================
+"let VCSCommandSVKExec='disabled no such executable'
+let VCSCommandDeleteOnHide=1	
+let VCSCommandDisableMappings=1
+"let VCSCommandEnableBufferSetup=1
+nmap <Leader>sd	:VCSVimDiff<CR>
+augroup VCSCommand
+	autocmd User VCSBufferCreated silent! nmap <unique> <buffer> q :bwipeout<cr> | setlocal nomodifiable
+augroup END
+nmap <Leader>dg		:diffget<CR>
+" }}}
+" YankRing ---------------------------------------------------------------- {{{
+let g:yankring_min_element_length = 2
+nmap \r :YRShow<CR>
+let g:yankring_replace_n_pkey = '<A->>'
+let g:yankring_replace_n_nkey = '<A-<>'
+" }}}
+" }}}
+
+" Basic options ----------------------------------------------------------- {{{
+set number
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set smartindent
+set smarttab
+set vb t_vb=
+set scrolloff=5
+set sidescroll=10
+set history=1000
+set ruler
+set showcmd
+set incsearch
+set hidden
+set diffopt=filler,vertical
+
+set ttymouse=xterm2
+set mouse=a
+set splitbelow
+set splitright
+set nobackup
+set noswapfile
+set magic
+set completeopt=longest,menuone
+set ttyfast
+
+"set wildmode=list:longest
+set wildmenu
+set wildignore=*.o,*.obj,*~,*.swp,*.DS_Store,*.git,*.svn,*.hg
+set lazyredraw
+
+set hlsearch
+set autoindent
 
 set confirm
-set guioptions+=c
+
 syntax on
-set number
+" }}}
 
+set cursorline
 if has("gui_running")
-
+	set guioptions+=c
 else
 	set t_Co=256
 	colorscheme molokai22
