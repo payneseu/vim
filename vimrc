@@ -23,6 +23,10 @@ Bundle 'vim-scripts/vcscommand.vim'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'vim-scripts/gtags.vim'
+Bundle 'kshenoy/vim-signature'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'rking/ag.vim'
+Bundle 'derekwyatt/vim-fswitch'
 
 call vundle#end()
 " }}}
@@ -383,7 +387,6 @@ autocmd FileType vim setlocal foldmethod=marker |
 
 " }}}
 " Functions --------------------------------------------------------------- {{{
-
 " DiffOrig ---------------------------------------------------------------- {{{
 " refert vimrc_example.vim 
 " Convenient command to see the difference between the current buffer and the
@@ -394,10 +397,87 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif 
 " }}}
+" Fold Quickfix ----------------------------------------------------------- {{{
+"http://vim.wikia.com/wiki/Show_only_lines_in_quickfix_list_for_current_buffer 
+if ! exists('g:foldmisses_context')
+  let g:foldmisses_context = 0
+endif
+
+" Add manual fold from line1 to line2, inclusive.
+function! s:Fold(line1, line2)
+  if a:line1 < a:line2
+    execute a:line1.','.a:line2.'fold'
+  endif
+endfunction
+
+" Return list of line numbers for current buffer found in quickfix list.
+function! s:GetHitLineNumbers(list)
+  let result = []
+  for d in a:list
+    if d.valid && d.bufnr == bufnr('')
+      call add(result, d.lnum)
+    endif
+  endfor
+  return result
+endfunction
+
+function! s:FoldMisses(list, context)
+  setlocal foldmethod=manual
+  normal! zE
+  let extra = a:context == 99999 ? g:foldmisses_context : a:context
+  let last = 0
+  for lnum in s:GetHitLineNumbers(a:list)
+"    let start = last==0 ? 1 : last+extra
+    let start = last==0 ? 1 : last+1+extra
+    call s:Fold(start, lnum-1-extra)
+    let last = lnum
+  endfor
+  call s:Fold(last+1+extra, line('$'))
+"  call s:Fold(last+extra, line('$'))
+endfunction
+
+":[N]FoldMisses [N]     Show only the lines (and surrounding [N] lines
+":[N]FoldLMisses [N]    of context) in the current buffer that appear
+"                       in the quickfix / location list.
+"                       Missed, error-free lines are folded away.
+command! -bar -count=99999 FoldMisses call s:FoldMisses(getqflist(), <count>)
+command! -bar -count=99999 FoldLMisses call s:FoldMisses(getloclist(0), <count>)
+" }}}
+" ToggleList -------------------------------------------------------------- {{{
+"http://vim.wikia.com/wiki/Toggle_to_open_or_close_the_quickfix_window
+function! GetBufferList()
+  redir =>buflist
+  silent! ls
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname, pfx)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      return
+    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
+  endif
+  let winnr = winnr()
+  exec(a:pfx.'open')
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+
+nmap <silent> \l :call ToggleList("Location List", 'l')<CR>
+nmap <silent> \q :call ToggleList("Quickfix List", 'c')<CR>
+" }}}
 " }}}
 
 
-set foldmethod=marker
 noremap <SPACE> za
 
 iabbrev  -...  <C-R>=repeat('-', 80 - col(".") - 4 ) . " {{{"
