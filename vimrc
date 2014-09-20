@@ -227,15 +227,152 @@ set autoindent
 set confirm
 
 syntax on
-" }}}
 
+" colorscheme {{{
 set cursorline
 if has("gui_running")
 	set guioptions+=c
+	colorscheme molokai
 else
 	set t_Co=256
 	colorscheme molokai22
 endif
+	
+" }}}
+
+" }}}
+" Mappings ---------------------------------------------------------------- {{{
+let mapleader = ";"
+" Normal mode ------------------------------------------------------------- {{{
+noremap Y	y$
+nmap <Leader>w	:w<CR>
+nmap <Leader>q	:q<CR>
+nmap <Leader>e	:e<Space>
+nmap <Leader>sw	:w !sudo tee %<CR>
+nmap <Leader>h	:vertical help<Space>
+nmap <Leader>t	:tabedit<Space>
+"nmap <Leader>x	:x<CR>
+" switch window 
+nmap <C-H>  <C-W>h
+nmap <C-J>  <C-W>j
+nmap <C-L>  <C-W>l
+nmap <C-K>  <C-W>k
+noremap <Leader>v	<C-W>v
+noremap <Leader>s	<C-W>s
+noremap <Leader>o	<C-W>o
+
+noremap <SPACE>	<C-F>
+noremap <S-SPACE>	<C-B>
+noremap <BS>	<C-B>
+noremap J	<C-D>
+noremap K	<C-U>
+" exchange mark ' and  `
+nnoremap ' `
+nnoremap ` '
+"" swith tabs
+noremap <A-n>	gt
+noremap <A-p>	gT
+"" shortcut for command
+"" :w !sudo tee %
+""
+"" shourt for buffer operations
+"nmap <A-TAB>	:bn<CR>
+" map <A-TAB> 
+nnoremap <ESC><TAB> :bn<CR>
+"noremap <A-S-TAB> 
+"input C-V then input key sequence to
+"http://vim.wikia.com/wiki/Make_Shift-Tab_work
+nnoremap  :bp<CR>
+"nmap <A-S-TAB>	:bp<CR>
+nmap <A-SPACE>	:b#<CR>
+"nmap <Leader>d	:bd<CR>
+"" keymappig for register operations
+noremap <Leader>r	:registers<CR>
+noremap <Leader>x	:<C-p>
+
+nmap <Leader>y	"*yy
+nmap <Leader>p	"*p
+
+" resize window 
+nmap +	<C-w>3+
+nmap -	<C-w>3-
+nmap <	<C-w>3<
+nmap >	<C-w>3>
+nmap =	<C-w>=
+
+nmap <A-=> :resize<CR>:vertical resize<CR>
+nmap = :resize<CR>:vertical resize<CR>
+
+noremap N	Nzzzv
+noremap g;	g;zz
+noremap g,	g,zz
+noremap <Leader>z	zmzvzz
+nmap \h :nohlsearch<CR>
+" }}}
+" Insert mode ------------------------------------------------------------- {{{
+inoremap jj		<Esc>
+inoremap <C-a>	<Home>
+inoremap <C-e>	<End>
+inoremap <C-D>	<Del>
+inoremap <C-b>	<S-Left>
+inoremap <C-f>	<S-Right>
+imap <A-d>	<S-Right><C-w>
+" }}}
+" Command mode ------------------------------------------------------- {{{
+cmap jj		<C-c>
+cnoremap <C-A>	<Home>
+cnoremap <C-E>	<End>
+cnoremap <C-B>	<Left>
+cnoremap <C-F>	<Right>
+
+if has("gui_running")
+" only for Macvim <D-Left> D is Command key
+	cmap <A-a>	<D-Left>
+	cmap <A-e>	<D-Right>
+
+	cnoremap <A-b>	<S-Left>
+	cnoremap <A-f>	<S-Right>
+	cnoremap <A-d>	<S-Right><S-Right><S-Left><C-w>
+else
+	cnoremap b	<S-Left>
+	cnoremap f	<S-Right>
+endif
+" delet a word left of cursor
+cmap <S-BS>	<C-w>
+" }}}
+" Visual mode ------------------------------------------------------------- {{{
+"" key mapping for  visul mode
+vmap <C-k>	{	
+vmap <C-j>	}	
+vmap <Leader>y	"*y
+" }}}
+" }}}
+
+
+" FileType ---------------------------------------------------------------- {{{
+autocmd BufNewFile,BufRead *.log set filetype=logecc
+autocmd BufNewFile,BufRead *.log.[0-9] set filetype=logecc
+autocmd BufNewFile,BufRead *tmux.conf set filetype=tmux
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+" http://vim.wikia.com/wiki/Update_the_diff_view_automatically
+autocmd InsertLeave,BufWritePost,CursorHold * if &diff == 1 | diffupdate | endif
+" setlocal nomodifiable for svn diff
+autocmd BufWinEnter *.svn-base setlocal nomodifiable 
+
+autocmd FileType qf noremap <buffer> <silent> q :q<CR> | setlocal nowrap
+autocmd FileType help noremap <buffer> <silent> q :q<CR> | vertical resize 84;
+autocmd FileType c,cpp
+    \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("\"", "{}") |
+	\ inoremap <buffer> { {<CR>}<ESC>kA<CR>
+autocmd FileType python setlocal foldmethod=indent
+
+autocmd FileType xml setlocal foldmethod=syntax |
+	\ let g:xml_syntax_folding=1
+autocmd FileType vim setlocal foldmethod=marker |
+	\ setlocal formatoptions-=c formatoptions-=r formatoptions-=o |
+    \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "{} \"")
+
+" }}}
 
 
 set foldmethod=marker
