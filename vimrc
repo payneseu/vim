@@ -18,6 +18,9 @@ Bundle 'Townk/vim-autoclose'
 Bundle 'majutsushi/tagbar'
 Bundle 'vim-scripts/tcd.vim'
 
+Bundle 'vim-scripts/cmdline-completion'
+Bundle 'vim-scripts/vcscommand.vim'
+Bundle 'Lokaltog/vim-easymotion'
 call vundle#end()
 
 "}}}
@@ -70,8 +73,6 @@ nnoremap <silent> se     :FufEditDataFile<CR>
 nnoremap <silent> sr     :FufRenewCache<CR>
 nnoremap <silent> sh     :FufMarkList<CR>
 " }}}
-
-
 " YouCompleteMe ----------------------------------------------------------- {{{
 syntax on
 
@@ -85,7 +86,6 @@ set completeopt-=preview   " disable preview windows for completion
 let g:ycm_confirm_extra_conf = 1
 
 " }}}
-
 " Airline ----------------------------------------------------------------- {{{
 "if has("gui_running")
 
@@ -147,6 +147,20 @@ endfunction
 
 "endif
 " }}}
+" NerdTree ---------------------------------------------------------------- {{{
+nmap <Leader>n	:NERDTreeToggle<CR>
+nmap <Leader>N	:NERDTreeFind<CR>
+" }}}
+" AutoClose --------------------------------------------------------------- {{{
+let g:AutoCloseProtectedRegions = ["Dialog", "ThoughBubble"]
+" }}}
+" TagBar ------------------------------------------------------------------ {{{
+noremap <Leader>f	:TagbarToggle<CR><C-w>l
+let Tlist_Ctags_Cmd="/usr/local/bin/ctags"
+" }}}
+" Tcd --------------------------------------------------------------------- {{{
+cabbrev cd Tcd
+" }}}
 
 set confirm
 set guioptions+=c
@@ -163,3 +177,6 @@ endif
 
 set foldmethod=marker
 noremap <SPACE> za
+
+iabbrev  -...  <C-R>=repeat('-', 80 - col(".") - 4 ) . " {{{"
+iabbrev		"}   " }}}
