@@ -22,11 +22,10 @@ Bundle 'vim-scripts/cmdline-completion'
 Bundle 'vim-scripts/vcscommand.vim'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'vim-scripts/YankRing.vim'
-
+Bundle 'vim-scripts/gtags.vim'
 
 call vundle#end()
 " }}}
-
 " Plugins Configuration --------------------------------------------------- {{{
 " Fuzzy Finder ------------------------------------------------------------ {{{
 let g:fuf_modesDisable = []
@@ -187,8 +186,20 @@ nmap \r :YRShow<CR>
 let g:yankring_replace_n_pkey = '<A->>'
 let g:yankring_replace_n_nkey = '<A-<>'
 " }}}
+" Gtags ------------------------------------------------------------------- {{{
+if has("gui_running")
+	noremap <A-.> :Gtags<CR>
+	noremap <A-r> :Gtags -r<CR>
+	noremap <A-o> :Gtags -s<CR>
+	noremap <A-g> :Gtags -g<CR> 
+else
+	noremap . :Gtags<CR>
+	noremap r :Gtags -r<CR>
+"	noremap j :Gtags -s<CR>
+	noremap g :Gtags -g<CR> 
+endif
 " }}}
-
+" }}}
 " Basic options ----------------------------------------------------------- {{{
 set number
 set tabstop=4
@@ -347,8 +358,6 @@ vmap <C-j>	}
 vmap <Leader>y	"*y
 " }}}
 " }}}
-
-
 " FileType ---------------------------------------------------------------- {{{
 autocmd BufNewFile,BufRead *.log set filetype=logecc
 autocmd BufNewFile,BufRead *.log.[0-9] set filetype=logecc
@@ -372,6 +381,19 @@ autocmd FileType vim setlocal foldmethod=marker |
 	\ setlocal formatoptions-=c formatoptions-=r formatoptions-=o |
     \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "{} \"")
 
+" }}}
+" Functions --------------------------------------------------------------- {{{
+
+" DiffOrig ---------------------------------------------------------------- {{{
+" refert vimrc_example.vim 
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif 
+" }}}
 " }}}
 
 
