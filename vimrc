@@ -14,6 +14,9 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'octol/vim-cpp-enhanced-highlight'
 Bundle 'bling/vim-airline'
 Bundle 'payneseu/nerdtree'
+Bundle 'Townk/vim-autoclose'
+Bundle 'majutsushi/tagbar'
+Bundle 'vim-scripts/tcd.vim'
 
 call vundle#end()
 
@@ -83,6 +86,68 @@ let g:ycm_confirm_extra_conf = 1
 
 " }}}
 
+" Airline ----------------------------------------------------------------- {{{
+"if has("gui_running")
+
+  let g:airline_mode_map = {
+      \ '__' : '-',
+      \ 'n'  : 'N',
+      \ 'i'  : 'I',
+      \ 'R'  : 'R',
+      \ 'c'  : 'C',
+      \ 'v'  : 'V',
+      \ 'V'  : 'V',
+      \ '' : 'V',
+      \ 's'  : 'S',
+      \ 'S'  : 'S',
+      \ '' : 'S',
+      \ }
+
+	let g:airline_theme = 'badwolf'
+
+"if has("gui_running")
+	let g:airline_powerline_fonts=1
+	let g:airline_left_sep = ''
+	let g:airline_left_alt_sep = ''
+	let g:airline_right_sep = ''
+	let g:airline_right_alt_sep = ''
+
+	let g:airline#extensions#tabline#show_buffers = 1
+	let g:airline#extensions#tabline#enabled = 1
+	let g:airline#extensions#tabline#left_sep = ''
+	let g:airline#extensions#tabline#left_alt_sep =''
+	let g:airline#extensions#tagbar#enabled = 1
+"else 
+"	let g:airline_powerline_fonts=1
+"	let g:airline_left_sep = ''
+""	let g:airline_left_alt_sep = ''
+"	let g:airline_right_sep = ''
+""	let g:airline_right_alt_sep = ''
+"
+"	let g:airline#extensions#tabline#show_buffers = 0
+"	let g:airline#extensions#tabline#enabled = 1
+"	let g:airline#extensions#tabline#left_sep = ''
+""	let g:airline#extensions#tabline#left_alt_sep =''
+"	let g:airline#extensions#tagbar#enabled = 1
+"endif
+	"
+"	let g:airline_section_a = 'N'
+	let g:airline_section_b = '%f%m'
+	let g:airline_section_c = ''
+	let g:airline_section_x = '[%-.50{CurDir()}]'
+	let g:airline_section_y = '%y'
+	let g:airline_section_z = '%c, %l/%L %p%%'
+	let g:airline_section_warning = '' " (syntastic, whitespace)
+
+set statusline=\ %<%F%m%=[%-.50{CurDir()}]\ %y\ %c,\ %l/%L\ \ %p%%\ 
+function! CurDir()
+	let curdir = substitute(getcwd(), $HOME, "~", "g")
+	return curdir
+endfunction
+
+"endif
+" }}}
+
 set confirm
 set guioptions+=c
 syntax on
@@ -94,3 +159,7 @@ else
 	set t_Co=256
 	colorscheme molokai22
 endif
+
+
+set foldmethod=marker
+noremap <SPACE> za
