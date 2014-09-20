@@ -30,6 +30,164 @@ Bundle 'derekwyatt/vim-fswitch'
 
 call vundle#end()
 " }}}
+" Basic options ----------------------------------------------------------- {{{
+set number
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set smartindent
+set smarttab
+set vb t_vb=
+set scrolloff=5
+set sidescroll=10
+set history=1000
+set ruler
+set showcmd
+set incsearch
+set hidden
+set diffopt=filler,vertical
+
+set ttymouse=xterm2
+set mouse=a
+set splitbelow
+set splitright
+set nobackup
+set noswapfile
+set magic
+set completeopt=longest,menuone
+set ttyfast
+
+"set wildmode=list:longest
+set wildmenu
+set wildignore=*.o,*.obj,*~,*.swp,*.DS_Store,*.git,*.svn,*.hg
+set lazyredraw
+
+set hlsearch
+set autoindent
+
+set confirm
+
+syntax on
+
+" colorscheme {{{
+set cursorline
+if has("gui_running")
+	set guioptions+=c
+	colorscheme molokai
+else
+	set t_Co=256
+	colorscheme molokai22
+endif
+	
+" }}}
+
+" }}}
+" Mappings ---------------------------------------------------------------- {{{
+let mapleader = ";"
+" Normal mode ------------------------------------------------------------- {{{
+noremap Y	y$
+nmap <Leader>w	:w<CR>
+nmap <Leader>q	:q<CR>
+nmap <Leader>e	:e<Space>
+nmap <Leader>sw	:w !sudo tee %<CR>
+nmap <Leader>h	:vertical help<Space>
+nmap <Leader>t	:tabedit<Space>
+"nmap <Leader>x	:x<CR>
+" switch window 
+nmap <C-H>  <C-W>h
+nmap <C-J>  <C-W>j
+nmap <C-L>  <C-W>l
+nmap <C-K>  <C-W>k
+noremap <Leader>v	<C-W>v
+noremap <Leader>s	<C-W>s
+noremap <Leader>o	<C-W>o
+
+noremap <SPACE>	<C-F>
+noremap <S-SPACE>	<C-B>
+noremap <BS>	<C-B>
+noremap J	<C-D>
+noremap K	<C-U>
+" exchange mark ' and  `
+nnoremap ' `
+nnoremap ` '
+"" swith tabs
+noremap <A-n>	gt
+noremap <A-p>	gT
+"" shortcut for command
+"" :w !sudo tee %
+""
+"" shourt for buffer operations
+"nmap <A-TAB>	:bn<CR>
+" map <A-TAB> 
+nnoremap <ESC><TAB> :bn<CR>
+"noremap <A-S-TAB> 
+"input C-V then input key sequence to
+"http://vim.wikia.com/wiki/Make_Shift-Tab_work
+nnoremap  :bp<CR>
+"nmap <A-S-TAB>	:bp<CR>
+nmap <A-SPACE>	:b#<CR>
+"nmap <Leader>d	:bd<CR>
+"" keymappig for register operations
+noremap <Leader>r	:registers<CR>
+noremap <Leader>x	:<C-p>
+
+nmap <Leader>y	"*yy
+nmap <Leader>p	"*p
+
+" resize window 
+nmap +	<C-w>3+
+nmap -	<C-w>3-
+nmap <	<C-w>3<
+nmap >	<C-w>3>
+nmap =	<C-w>=
+
+nmap <A-=> :resize<CR>:vertical resize<CR>
+nmap = :resize<CR>:vertical resize<CR>
+
+noremap N	Nzzzv
+noremap g;	g;zz
+noremap g,	g,zz
+noremap <Leader>z	zmzvzz
+nmap \h :nohlsearch<CR>
+" }}}
+" Insert mode ------------------------------------------------------------- {{{
+inoremap jj		<Esc>
+inoremap <C-a>	<Home>
+inoremap <C-e>	<End>
+inoremap <C-D>	<Del>
+inoremap <C-b>	<S-Left>
+inoremap <C-f>	<S-Right>
+imap <A-d>	<S-Right><C-w>
+" }}}
+" Command mode ------------------------------------------------------- {{{
+cmap jj		<C-c>
+cnoremap <C-A>	<Home>
+cnoremap <C-E>	<End>
+cnoremap <C-B>	<Left>
+cnoremap <C-F>	<Right>
+
+if has("gui_running")
+" only for Macvim <D-Left> D is Command key
+	cmap <A-a>	<D-Left>
+	cmap <A-e>	<D-Right>
+
+	cnoremap <A-b>	<S-Left>
+	cnoremap <A-f>	<S-Right>
+	cnoremap <A-d>	<S-Right><S-Right><S-Left><C-w>
+else
+	cnoremap b	<S-Left>
+	cnoremap f	<S-Right>
+endif
+" delet a word left of cursor
+cmap <S-BS>	<C-w>
+" }}}
+" Visual mode ------------------------------------------------------------- {{{
+"" key mapping for  visul mode
+vmap <C-k>	{	
+vmap <C-j>	}	
+vmap <Leader>y	"*y
+" }}}
+" }}}
 " Plugins Configuration --------------------------------------------------- {{{
 " Fuzzy Finder ------------------------------------------------------------ {{{
 let g:fuf_modesDisable = []
@@ -203,164 +361,14 @@ else
 	noremap g :Gtags -g<CR> 
 endif
 " }}}
-" }}}
-" Basic options ----------------------------------------------------------- {{{
-set number
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set smartindent
-set smarttab
-set vb t_vb=
-set scrolloff=5
-set sidescroll=10
-set history=1000
-set ruler
-set showcmd
-set incsearch
-set hidden
-set diffopt=filler,vertical
-
-set ttymouse=xterm2
-set mouse=a
-set splitbelow
-set splitright
-set nobackup
-set noswapfile
-set magic
-set completeopt=longest,menuone
-set ttyfast
-
-"set wildmode=list:longest
-set wildmenu
-set wildignore=*.o,*.obj,*~,*.swp,*.DS_Store,*.git,*.svn,*.hg
-set lazyredraw
-
-set hlsearch
-set autoindent
-
-set confirm
-
-syntax on
-
-" colorscheme {{{
-set cursorline
-if has("gui_running")
-	set guioptions+=c
-	colorscheme molokai
-else
-	set t_Co=256
-	colorscheme molokai22
-endif
-	
-" }}}
+" FSwitch ----------------------------------------------------------------- {{{
+"au! BufEnter *.cpp,*c,*cc let b:fswitchdst = 'hpp,h' |
+"	\	let b:fswitchlocs = 'reg:/src/include/,reg:../inc'
+"au! BufEnter *.h,*hpp,*hxx let b:fswitchdst = 'cpp,cc,c' |
+"	\	let b:fswitchlocs = 'reg:/include/src/,reg:/include.*/src/'
 
 " }}}
-" Mappings ---------------------------------------------------------------- {{{
-let mapleader = ";"
-" Normal mode ------------------------------------------------------------- {{{
-noremap Y	y$
-nmap <Leader>w	:w<CR>
-nmap <Leader>q	:q<CR>
-nmap <Leader>e	:e<Space>
-nmap <Leader>sw	:w !sudo tee %<CR>
-nmap <Leader>h	:vertical help<Space>
-nmap <Leader>t	:tabedit<Space>
-"nmap <Leader>x	:x<CR>
-" switch window 
-nmap <C-H>  <C-W>h
-nmap <C-J>  <C-W>j
-nmap <C-L>  <C-W>l
-nmap <C-K>  <C-W>k
-noremap <Leader>v	<C-W>v
-noremap <Leader>s	<C-W>s
-noremap <Leader>o	<C-W>o
 
-noremap <SPACE>	<C-F>
-noremap <S-SPACE>	<C-B>
-noremap <BS>	<C-B>
-noremap J	<C-D>
-noremap K	<C-U>
-" exchange mark ' and  `
-nnoremap ' `
-nnoremap ` '
-"" swith tabs
-noremap <A-n>	gt
-noremap <A-p>	gT
-"" shortcut for command
-"" :w !sudo tee %
-""
-"" shourt for buffer operations
-"nmap <A-TAB>	:bn<CR>
-" map <A-TAB> 
-nnoremap <ESC><TAB> :bn<CR>
-"noremap <A-S-TAB> 
-"input C-V then input key sequence to
-"http://vim.wikia.com/wiki/Make_Shift-Tab_work
-nnoremap  :bp<CR>
-"nmap <A-S-TAB>	:bp<CR>
-nmap <A-SPACE>	:b#<CR>
-"nmap <Leader>d	:bd<CR>
-"" keymappig for register operations
-noremap <Leader>r	:registers<CR>
-noremap <Leader>x	:<C-p>
-
-nmap <Leader>y	"*yy
-nmap <Leader>p	"*p
-
-" resize window 
-nmap +	<C-w>3+
-nmap -	<C-w>3-
-nmap <	<C-w>3<
-nmap >	<C-w>3>
-nmap =	<C-w>=
-
-nmap <A-=> :resize<CR>:vertical resize<CR>
-nmap = :resize<CR>:vertical resize<CR>
-
-noremap N	Nzzzv
-noremap g;	g;zz
-noremap g,	g,zz
-noremap <Leader>z	zmzvzz
-nmap \h :nohlsearch<CR>
-" }}}
-" Insert mode ------------------------------------------------------------- {{{
-inoremap jj		<Esc>
-inoremap <C-a>	<Home>
-inoremap <C-e>	<End>
-inoremap <C-D>	<Del>
-inoremap <C-b>	<S-Left>
-inoremap <C-f>	<S-Right>
-imap <A-d>	<S-Right><C-w>
-" }}}
-" Command mode ------------------------------------------------------- {{{
-cmap jj		<C-c>
-cnoremap <C-A>	<Home>
-cnoremap <C-E>	<End>
-cnoremap <C-B>	<Left>
-cnoremap <C-F>	<Right>
-
-if has("gui_running")
-" only for Macvim <D-Left> D is Command key
-	cmap <A-a>	<D-Left>
-	cmap <A-e>	<D-Right>
-
-	cnoremap <A-b>	<S-Left>
-	cnoremap <A-f>	<S-Right>
-	cnoremap <A-d>	<S-Right><S-Right><S-Left><C-w>
-else
-	cnoremap b	<S-Left>
-	cnoremap f	<S-Right>
-endif
-" delet a word left of cursor
-cmap <S-BS>	<C-w>
-" }}}
-" Visual mode ------------------------------------------------------------- {{{
-"" key mapping for  visul mode
-vmap <C-k>	{	
-vmap <C-j>	}	
-vmap <Leader>y	"*y
-" }}}
 " }}}
 " FileType ---------------------------------------------------------------- {{{
 autocmd BufNewFile,BufRead *.log set filetype=logecc
