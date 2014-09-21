@@ -28,8 +28,12 @@ Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'rking/ag.vim'
 Bundle 'payneseu/mark-2.8.4'
 "Bundle 'derekwyatt/vim-fswitch'
+Bundle 'sjl/gundo.vim'
+Bundle 'tpope/vim-markdown'
 
 call vundle#end()
+filetype plugin indent on
+
 " }}}
 " Basic options ----------------------------------------------------------- {{{
 set number
@@ -94,16 +98,23 @@ endif
 " }}}
 " Mappings ---------------------------------------------------------------- {{{
 let mapleader = ";"
+map Q gq
 " Normal mode ------------------------------------------------------------- {{{
-noremap Y	y$
+nnoremap Y	y$
+nnoremap ' `
+nnoremap ` '
+nnoremap J	<C-D>
+nnoremap K	<C-U>
+
 nmap <Leader>w	:w<CR>
 nmap <Leader>q	:q<CR>
 nmap <Leader>e	:e<Space>
-nmap <Leader>sw	:w !sudo tee %<CR>
+nmap <Leader>W	:w !sudo tee %<CR>
 nmap <Leader>h	:vertical help<Space>
 nmap <Leader>t	:tabedit<Space>
 "nmap <Leader>x	:x<CR>
-" switch window 
+
+" windows 
 nmap <C-H>  <C-W>h
 nmap <C-J>  <C-W>j
 nmap <C-L>  <C-W>l
@@ -111,31 +122,25 @@ nmap <C-K>  <C-W>k
 noremap <Leader>v	<C-W>v
 noremap <Leader>s	<C-W>s
 noremap <Leader>o	<C-W>o
+nmap +	<C-w>3+
+nmap -	<C-w>3-
+nmap <	<C-w>3<
+nmap >	<C-w>3>
+nmap =	<C-w>=
 
 noremap <SPACE>	<C-F>
 noremap <S-SPACE>	<C-B>
 noremap <BS>	<C-B>
-noremap J	<C-D>
-noremap K	<C-U>
-" exchange mark ' and  `
-nnoremap ' `
-nnoremap ` '
-"" swith tabs
 noremap <A-n>	gt
 noremap <A-p>	gT
-"" shortcut for command
-"" :w !sudo tee %
-""
-"" shourt for buffer operations
 "nmap <A-TAB>	:bn<CR>
-" map <A-TAB> 
-nnoremap <ESC><TAB> :bn<CR>
-"noremap <A-S-TAB> 
-"input C-V then input key sequence to
+" map <A-TAB> Alt+TAB  
+"noremap <A-S-TAB> "input C-V then input key sequence to
 "http://vim.wikia.com/wiki/Make_Shift-Tab_work
+nnoremap <ESC><TAB> :bn<CR>
 nnoremap  :bp<CR>
 "nmap <A-S-TAB>	:bp<CR>
-nmap <A-SPACE>	:b#<CR>
+"nmap <A-SPACE>	:b#<CR>
 "nmap <Leader>d	:bd<CR>
 "" keymappig for register operations
 noremap <Leader>r	:registers<CR>
@@ -144,12 +149,6 @@ noremap <Leader>x	:<C-p>
 nmap <Leader>y	"*yy
 nmap <Leader>p	"*p
 
-" resize window 
-nmap +	<C-w>3+
-nmap -	<C-w>3-
-nmap <	<C-w>3<
-nmap >	<C-w>3>
-nmap =	<C-w>=
 
 nmap <A-=> :resize<CR>:vertical resize<CR>
 nmap = :resize<CR>:vertical resize<CR>
@@ -162,6 +161,7 @@ nmap \h :nohlsearch<CR>
 " }}}
 " Insert mode ------------------------------------------------------------- {{{
 inoremap jj		<Esc>
+inoremap <C-U> <C-G>u<C-U>
 inoremap <C-a>	<Home>
 inoremap <C-e>	<End>
 inoremap <C-D>	<Del>
@@ -256,7 +256,7 @@ let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_show_diagnostics_ui = 1
 let g:ycm_enable_diagnostic_signs = 1
 set completeopt-=preview   " disable preview windows for completion
-let g:ycm_confirm_extra_conf = 1
+let g:ycm_confirm_extra_conf = 0
 
 " }}}
 " Airline ----------------------------------------------------------------- {{{
@@ -346,7 +346,7 @@ cmap <C-K> <Plug>CmdlineCompletionForward
 let VCSCommandDeleteOnHide=1	
 let VCSCommandDisableMappings=1
 "let VCSCommandEnableBufferSetup=1
-nmap <Leader>sd	:VCSVimDiff<CR>
+"nmap <Leader>sd	:VCSVimDiff<CR>
 augroup VCSCommand
 	autocmd User VCSBufferCreated silent! nmap <unique> <buffer> q :bwipeout<cr> | setlocal nomodifiable
 augroup END
@@ -376,7 +376,9 @@ nmap  \m <Plug>MarkSet
 nmap  * <Plug>MarkSearchNext
 nmap  # <Plug>MarkSearchPrev
 " }}}
-
+" Gundo ------------------------------------------------------------------- {{{
+"    nnoremap <F5> :GundoToggle<CR>
+" }}}
 
 " }}}
 " FileType ---------------------------------------------------------------- {{{
@@ -508,6 +510,7 @@ augroup line_return
         \ endif
 augroup END
 
+noremap <Leader>d	@=(&diff)?':diffoff':":VCSVimDiff"<CR><CR>
 iabbrev  -...  <C-R>=repeat('-', 80 - col(".") - 4 ) . " {{{"
 iabbrev		"}   " }}}
 
