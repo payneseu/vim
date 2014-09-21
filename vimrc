@@ -246,7 +246,7 @@ nnoremap <silent> sr     :FufRenewCache<CR>
 nnoremap <silent> sh     :FufMarkList<CR>
 " }}}
 " YouCompleteMe ----------------------------------------------------------- {{{
-"syntax on
+"syntax on, must before the YCM,
 
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
@@ -487,8 +487,23 @@ nmap <silent> \q :call ToggleList("Quickfix List", 'c')<CR>
 " }}}
 " }}}
 
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+noremap <Leader>d	@=(&diff)?':diffoff':":VCSVimDiff"<CR><CR>
 
-noremap <SPACE> za
+" https://bitbucket.org/sjl/dotfiles/src/tip/vim/vimrc
+" Make sure Vim returns to the same line when you reopen a file.
+" Thanks, Amit
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
 
 iabbrev  -...  <C-R>=repeat('-', 80 - col(".") - 4 ) . " {{{"
 iabbrev		"}   " }}}
+
+" $ sed -n l
+" to show the key sequence when pressing some key, 
+" such as Ctrl-V
