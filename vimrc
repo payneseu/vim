@@ -26,6 +26,7 @@ Bundle 'vim-scripts/gtags.vim'
 Bundle 'kshenoy/vim-signature'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'rking/ag.vim'
+Bundle 'payneseu/mark-2.8.4'
 "Bundle 'derekwyatt/vim-fswitch'
 
 call vundle#end()
@@ -370,6 +371,12 @@ else
 	noremap g :Gtags -g<CR> 
 endif
 " }}}
+" Marks ------------------------------------------------------------------- {{{
+nmap  \m <Plug>MarkSet
+nmap  * <Plug>MarkSearchNext
+nmap  # <Plug>MarkSearchPrev
+" }}}
+
 
 " }}}
 " FileType ---------------------------------------------------------------- {{{
