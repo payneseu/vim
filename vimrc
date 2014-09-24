@@ -32,8 +32,8 @@ Bundle 'sjl/gundo.vim'
 Bundle 'tpope/vim-markdown'
 "Bundle 'vim-scripts/BreakPts'
 "Bundle 'vim-scripts/genutils'
-Bundle 'vim-scripts/Marks-Browser'
-Bundle 'MattesGroeger/vim-bookmarks'
+"Bundle 'vim-scripts/Marks-Browser'
+"Bundle 'MattesGroeger/vim-bookmarks'
 
 call vundle#end()
 filetype plugin indent on
