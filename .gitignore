@@ -1,3 +1,4 @@
 .VimBallRecord
 *.swp
 bundle/*
+plugin/*
