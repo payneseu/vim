@@ -30,6 +30,10 @@ Bundle 'payneseu/mark-2.8.4'
 "Bundle 'derekwyatt/vim-fswitch'
 Bundle 'sjl/gundo.vim'
 Bundle 'tpope/vim-markdown'
+"Bundle 'vim-scripts/BreakPts'
+"Bundle 'vim-scripts/genutils'
+Bundle 'vim-scripts/Marks-Browser'
+Bundle 'MattesGroeger/vim-bookmarks'
 
 call vundle#end()
 filetype plugin indent on
@@ -77,8 +81,15 @@ syntax on
 " colorscheme {{{
 set cursorline
 if has("gui_running")
+	set macmeta  "" Macvim only
 	set guioptions+=c
+	set guifont=Sauce\ Code\ Powerline\ Light:h12
+	highlight Cursor guifg=white guibg=green
 	colorscheme molokai
+	set guicursor=a:blinkon0
+	set guioptions=eac
+	set lines=999
+	set columns=999
 else
 	set t_Co=256
 	colorscheme molokai22
@@ -517,3 +528,7 @@ iabbrev		"}   " }}}
 " $ sed -n l
 " to show the key sequence when pressing some key, 
 " such as Ctrl-V
+noremap \b :MarksBrowser<CR>
+let g:bookmark_save_per_working_dir = 1
+let g:bookmark_auto_save = 1
+
