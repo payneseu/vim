@@ -33,7 +33,7 @@ Bundle 'tpope/vim-markdown'
 "Bundle 'vim-scripts/BreakPts'
 "Bundle 'vim-scripts/genutils'
 "Bundle 'vim-scripts/Marks-Browser'
-"Bundle 'MattesGroeger/vim-bookmarks'
+Bundle 'MattesGroeger/vim-bookmarks'
 
 call vundle#end()
 filetype plugin indent on
@@ -168,7 +168,7 @@ noremap N	Nzzzv
 noremap g;	g;zz
 noremap g,	g,zz
 noremap <Leader>z	zmzvzz
-nmap \h :nohlsearch<CR>
+nmap \\ :nohlsearch<CR>
 " }}}
 " Insert mode ------------------------------------------------------------- {{{
 inoremap jj		<Esc>
@@ -241,11 +241,11 @@ nnoremap <silent> s<     :FufBufferTag!<CR>
 vnoremap <silent> s,     :FufBufferTagWithSelectedText!<CR>
 vnoremap <silent> s<     :FufBufferTagWithSelectedText<CR>
 nnoremap <silent> s}     :FufBufferTagWithCursorWord!<CR>
-nnoremap <silent> s.     :FufBufferTagAll<CR>
-nnoremap <silent> s>     :FufBufferTagAll!<CR>
-vnoremap <silent> s.     :FufBufferTagAllWithSelectedText!<CR>
-vnoremap <silent> s>     :FufBufferTagAllWithSelectedText<CR>
-nnoremap <silent> s]     :FufBufferTagAllWithCursorWord!<CR>
+"nnoremap <silent> s.     :FufBufferTagAll<CR>
+"nnoremap <silent> s>     :FufBufferTagAll!<CR>
+"vnoremap <silent> s.     :FufBufferTagAllWithSelectedText!<CR>
+"vnoremap <silent> s>     :FufBufferTagAllWithSelectedText<CR>
+"nnoremap <silent> s]     :FufBufferTagAllWithCursorWord!<CR>
 nnoremap <silent> sg     :FufTaggedFile<CR>
 nnoremap <silent> sG     :FufTaggedFile!<CR>
 nnoremap <silent> so     :FufJumpList<CR>
@@ -255,7 +255,6 @@ nnoremap <silent> sy     :FufLine<CR>
 "  nnoremap <silent> sh     :FufHelp<CR>
 nnoremap <silent> se     :FufEditDataFile<CR>
 nnoremap <silent> sr     :FufRenewCache<CR>
-nnoremap <silent> sh     :FufMarkList<CR>
 " }}}
 " YouCompleteMe ----------------------------------------------------------- {{{
 "syntax on, must before the YCM,
@@ -383,12 +382,34 @@ else
 endif
 " }}}
 " Marks ------------------------------------------------------------------- {{{
-nmap  \m <Plug>MarkSet
+nmap  \h <Plug>MarkSet
 nmap  * <Plug>MarkSearchNext
 nmap  # <Plug>MarkSearchPrev
 " }}}
 " Gundo ------------------------------------------------------------------- {{{
 "    nnoremap <F5> :GundoToggle<CR>
+" }}}
+" Bookmarks --------------------------------------------------------------- {{{
+
+let g:bookmark_save_per_working_dir = 1
+let g:bookmark_auto_close = 1
+let g:bookmark_auto_save = 1
+" unmap the default mapping in plugins
+nmap <Plug>DisableBookmarkToggle	<Plug>BookmarkToggle
+nmap <Plug>DisableBookmarkAnnotate	<Plug>BookmarkAnnotate
+nmap <Plug>DisableBookmarkShowAll	<Plug>BookmarkShowAll
+nmap <Plug>DisableBookmarkNext		<Plug>BookmarkNext
+nmap <Plug>DisableBookmarkPrev		<Plug>BookmarkPrev
+nmap <Plug>DisableBookmarkClear		<Plug>BookmarkClear
+nmap <Plug>DisableBookmarkClearAll	<Plug>BookmarkClearAll
+" remapping
+nmap mm <Plug>BookmarkToggle
+"  nmap ,i <Plug>BookmarkAnnotate
+nmap \m <Plug>BookmarkShowAll
+"  nmap ,j <Plug>BookmarkNext
+"  nmap ,k <Plug>BookmarkPrev
+"  nmap ,c <Plug>BookmarkClear
+"  nmap ,x <Plug>BookmarkClearAll
 " }}}
 
 " }}}
@@ -528,7 +549,12 @@ iabbrev		"}   " }}}
 " $ sed -n l
 " to show the key sequence when pressing some key, 
 " such as Ctrl-V
-noremap \b :MarksBrowser<CR>
-let g:bookmark_save_per_working_dir = 1
-let g:bookmark_auto_save = 1
 
+
+
+" some prefix for mapping
+" <Leader> = ;
+" ,
+" \
+" m
+;
