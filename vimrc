@@ -82,10 +82,10 @@ syntax on
 set cursorline
 if has("gui_running")
 	set macmeta  "" Macvim only
+	colorscheme molokai
 	set guioptions+=c
 	set guifont=Sauce\ Code\ Powerline\ Light:h12
 	highlight Cursor guifg=white guibg=green
-	colorscheme molokai
 	set guicursor=a:blinkon0
 	set guioptions=eac
 	set lines=999
@@ -155,9 +155,9 @@ nnoremap  :bp<CR>
 "nmap <Leader>d	:bd<CR>
 "" keymappig for register operations
 noremap <Leader>r	:registers<CR>
-noremap <Leader>x	:<C-p>
+"noremap <Leader>x	:<C-p>
+nnoremap <Leader>x :
 
-nmap <Leader>y	"*yy
 nmap <Leader>p	"*p
 
 
@@ -186,6 +186,8 @@ cnoremap <C-A>	<Home>
 cnoremap <C-E>	<End>
 cnoremap <C-B>	<Left>
 cnoremap <C-F>	<Right>
+cnoremap <C-D>	<Del>
+
 
 if has("gui_running")
 " only for Macvim <D-Left> D is Command key
@@ -198,6 +200,7 @@ if has("gui_running")
 else
 	cnoremap b	<S-Left>
 	cnoremap f	<S-Right>
+	cnoremap d	<S-Right><S-Right><S-Left><C-w>
 endif
 " delet a word left of cursor
 cmap <S-BS>	<C-w>
@@ -206,7 +209,8 @@ cmap <S-BS>	<C-w>
 "" key mapping for  visul mode
 vmap <C-k>	{	
 vmap <C-j>	}	
-vmap <Leader>y	"*y
+"vmap <Leader>y	"*y
+vmap Y	"*y
 " }}}
 " }}}
 " Plugins Configuration --------------------------------------------------- {{{
@@ -267,6 +271,8 @@ let g:ycm_show_diagnostics_ui = 1
 let g:ycm_enable_diagnostic_signs = 1
 set completeopt-=preview   " disable preview windows for completion
 let g:ycm_confirm_extra_conf = 0
+" delete default mapping for <leader>d
+let g:ycm_key_detailed_diagnostics = ''
 
 " }}}
 " Airline ----------------------------------------------------------------- {{{
@@ -526,10 +532,25 @@ endfunction
 nmap <silent> \l :call ToggleList("Location List", 'l')<CR>
 nmap <silent> \q :call ToggleList("Quickfix List", 'c')<CR>
 " }}}
+" DiffToggle -------------------------------------------------------------- {{{
+"if !exists(":DiffToggle")
+"	\ endif
+"endif
+function! DiffToggle()
+	if(&diff)
+		diffoff | wincmd h | wincmd o
+	else
+		exec ":VCSVimDiff" | wincmd h
+	endif
+endfunction
+nnoremap \d :call DiffToggle()<CR>
+"noremap <Leader>d	@=(&diff)?':diffoff':":VCSVimDiff"<CR><CR>
+" }}}
+
 " }}}
 
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-noremap <Leader>d	@=(&diff)?':diffoff':":VCSVimDiff"<CR><CR>
+"noremap <Leader>d	@=(&diff)?':diffoff':":VCSVimDiff"<CR><CR>
 
 " https://bitbucket.org/sjl/dotfiles/src/tip/vim/vimrc
 " Make sure Vim returns to the same line when you reopen a file.
@@ -542,7 +563,6 @@ augroup line_return
         \ endif
 augroup END
 
-noremap <Leader>d	@=(&diff)?':diffoff':":VCSVimDiff"<CR><CR>
 iabbrev  -...  <C-R>=repeat('-', 80 - col(".") - 4 ) . " {{{"
 iabbrev		"}   " }}}
 
@@ -557,4 +577,3 @@ iabbrev		"}   " }}}
 " ,
 " \
 " m
-;
