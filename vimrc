@@ -65,19 +65,14 @@ set noswapfile
 set magic
 set completeopt=longest,menuone
 set ttyfast
-
 "set wildmode=list:longest
 set wildmenu
 set wildignore=*.o,*.obj,*~,*.swp,*.DS_Store,*.git,*.svn,*.hg
 set lazyredraw
-
 set hlsearch
 set autoindent
-
 set confirm
-
 syntax on
-
 " colorscheme {{{
 set cursorline
 if has("gui_running")
@@ -105,7 +100,6 @@ else
 endif
 	
 " }}}
-
 " }}}
 " Mappings ---------------------------------------------------------------- {{{
 let mapleader = ";"
@@ -130,9 +124,9 @@ nmap <C-H>  <C-W>h
 nmap <C-J>  <C-W>j
 nmap <C-L>  <C-W>l
 nmap <C-K>  <C-W>k
-noremap <Leader>v	<C-W>v
-noremap <Leader>s	<C-W>s
-noremap <Leader>o	<C-W>o
+nnoremap <Leader>v	<C-W>v
+nnoremap <Leader>s	<C-W>s
+"nnoremap  so		<C-W>o
 nmap +	<C-w>3+
 nmap -	<C-w>3-
 nmap <	<C-w>3<
@@ -156,7 +150,7 @@ nnoremap  :bp<CR>
 "" keymappig for register operations
 noremap <Leader>r	:registers<CR>
 "noremap <Leader>x	:<C-p>
-nnoremap <Leader>x :
+nnoremap <Leader>a :
 
 nmap <Leader>p	"*p
 
@@ -219,6 +213,7 @@ let g:fuf_modesDisable = []
 let g:fuf_mrufile_maxItem = 400
 let g:fuf_mrucmd_maxItem = 400
 let g:fuf_file_exclude = '\v\~$|\.(DS_Store|o|exe|dll|bak|orig|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+let g:fuf_buffertag_ctagsPath = '/usr/local/bin/ctags'
 nnoremap <silent> sj     :FufBuffer<CR>
 nnoremap <silent> sk     :FufFileWithCurrentBufferDir<CR>
 nnoremap <silent> sK     :FufFileWithFullCwd<CR>
@@ -569,7 +564,8 @@ iabbrev		"}   " }}}
 " $ sed -n l
 " to show the key sequence when pressing some key, 
 " such as Ctrl-V
-
+" cnfile
+" cpfile
 
 
 " some prefix for mapping
