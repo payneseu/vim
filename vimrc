@@ -368,6 +368,7 @@ let g:yankring_min_element_length = 2
 nmap \r :YRShow<CR>
 let g:yankring_replace_n_pkey = '<A->>'
 let g:yankring_replace_n_nkey = '<A-<>'
+let g:yankring_history_dir = "$HOME/.vim/temp/"
 " }}}
 " Gtags ------------------------------------------------------------------- {{{
 if has("gui_running")

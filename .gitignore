@@ -3,3 +3,4 @@
 bundle/*
 plugin/*
 .vim-bookmarks
+temp/*
