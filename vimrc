@@ -418,6 +418,7 @@ nmap \m <Plug>BookmarkShowAll
 autocmd BufNewFile,BufRead *.log set filetype=logecc
 autocmd BufNewFile,BufRead *.log.[0-9] set filetype=logecc
 autocmd BufNewFile,BufRead *tmux.conf set filetype=tmux
+autocmd BufNewFile,BufRead SConstruct set filetype=python
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " http://vim.wikia.com/wiki/Update_the_diff_view_automatically
 autocmd InsertLeave,BufWritePost,CursorHold * if &diff == 1 | diffupdate | endif
@@ -425,8 +426,8 @@ autocmd InsertLeave,BufWritePost,CursorHold * if &diff == 1 | diffupdate | endif
 autocmd BufWinEnter *.svn-base setlocal nomodifiable 
 
 autocmd FileType qf noremap <buffer> <silent> q :q<CR> | setlocal nowrap
-autocmd FileType help noremap <buffer> <silent> q :q<CR> | vertical resize 84;
-autocmd FileType c,cpp
+autocmd FileType help noremap <buffer> <silent> q :q<CR> | vertical resize 85;
+autocmd FileType c,cpp setlocal foldmethod=syntax |
     \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("\"", "{}") |
 	\ inoremap <buffer> { {<CR>}<ESC>kA<CR>
 autocmd FileType python setlocal foldmethod=indent
@@ -436,6 +437,8 @@ autocmd FileType xml setlocal foldmethod=syntax |
 autocmd FileType vim setlocal foldmethod=marker |
 	\ setlocal formatoptions-=c formatoptions-=r formatoptions-=o |
     \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("", "{} \"")
+
+autocmd CmdwinEnter * map <buffer> q :q<CR>
 
 " }}}
 " Functions --------------------------------------------------------------- {{{
@@ -544,7 +547,8 @@ nnoremap \d :call DiffToggle()<CR>
 
 " }}}
 
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+"nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"6j")<CR>
 "noremap <Leader>d	@=(&diff)?':diffoff':":VCSVimDiff"<CR><CR>
 
 " https://bitbucket.org/sjl/dotfiles/src/tip/vim/vimrc
@@ -573,3 +577,8 @@ iabbrev		"}   " }}}
 " ,
 " \
 " m
+nnoremap B ^
+nnoremap E $
+"http://dougblack.io/words/a-good-vimrc.html
+"nnoremap gV `[v`]
+set nostartofline   " don't jump to first character when paging
