@@ -206,6 +206,12 @@ vmap <C-j>	}
 "vmap <Leader>y	"*y
 vmap Y	"*y
 " }}}
+" Advanced mapping -------------------------------------------------------- {{{
+" mapping for diff mode 
+nnoremap <buffer> qj @=(&diff)?']c':'qj'<CR>
+nnoremap <buffer> qk @=(&diff)?'[c':'qk'<CR>
+" }}}
+
 " }}}
 " Plugins Configuration --------------------------------------------------- {{{
 " Fuzzy Finder ------------------------------------------------------------ {{{
@@ -426,8 +432,8 @@ autocmd InsertLeave,BufWritePost,CursorHold * if &diff == 1 | diffupdate | endif
 " setlocal nomodifiable for svn diff
 autocmd BufWinEnter *.svn-base setlocal nomodifiable 
 
-autocmd FileType qf noremap <buffer> <silent> q :q<CR> | setlocal nowrap
-autocmd FileType help noremap <buffer> <silent> q :q<CR> | vertical resize 85;
+autocmd FileType qf nnoremap <buffer> <silent> q :q<CR> | setlocal nowrap
+autocmd FileType help nnoremap <buffer> <silent> q :q<CR> | vertical resize 85;
 autocmd FileType c,cpp setlocal foldmethod=syntax |
     \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("\"", "{}") |
 	\ inoremap <buffer> { {<CR>}<ESC>kA<CR>
