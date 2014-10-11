@@ -206,12 +206,6 @@ vmap <C-j>	}
 "vmap <Leader>y	"*y
 vmap Y	"*y
 " }}}
-" Advanced mapping -------------------------------------------------------- {{{
-" mapping for diff mode 
-nnoremap <buffer> qj @=(&diff)?']c':'qj'<CR>
-nnoremap <buffer> qk @=(&diff)?'[c':'qk'<CR>
-" }}}
-
 " }}}
 " Plugins Configuration --------------------------------------------------- {{{
 " Fuzzy Finder ------------------------------------------------------------ {{{
@@ -431,6 +425,9 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd InsertLeave,BufWritePost,CursorHold * if &diff == 1 | diffupdate | endif
 " setlocal nomodifiable for svn diff
 autocmd BufWinEnter *.svn-base setlocal nomodifiable 
+"autocmd WinEnter * if &diff == 1 | nnoremap <buffer> qj ]c | endif
+autocmd WinEnter * nnoremap <buffer> qj @=(&diff)?']c':'qj'<CR> |
+	\ nnoremap <buffer> qk @=(&diff)?'[c':'qk'<CR>
 
 autocmd FileType qf nnoremap <buffer> <silent> q :q<CR> | setlocal nowrap
 autocmd FileType help nnoremap <buffer> <silent> q :q<CR> | vertical resize 85;
