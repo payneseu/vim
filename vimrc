@@ -158,9 +158,10 @@ nmap <Leader>p	"*p
 nmap <A-=> :resize<CR>:vertical resize<CR>
 nmap = :resize<CR>:vertical resize<CR>
 
-noremap N	Nzzzv
-noremap g;	g;zz
-noremap g,	g,zz
+nnoremap n nzzzv
+nnoremap N	Nzzzv
+nnoremap g;	g;zzzv
+nnoremap g,	g,zzzv
 noremap <Leader>z	zmzvzz
 nmap \\ :nohlsearch<CR>
 " }}}
@@ -425,9 +426,9 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd InsertLeave,BufWritePost,CursorHold * if &diff == 1 | diffupdate | endif
 " setlocal nomodifiable for svn diff
 autocmd BufWinEnter *.svn-base setlocal nomodifiable 
-"autocmd WinEnter * if &diff == 1 | nnoremap <buffer> qj ]c | endif
-autocmd WinEnter * nnoremap <buffer> qj @=(&diff)?']c':'qj'<CR> |
-	\ nnoremap <buffer> qk @=(&diff)?'[c':'qk'<CR>
+
+autocmd WinEnter * nnoremap <buffer> gj @=(&diff)?']czz':'gj'<CR> |
+	\ nnoremap <buffer> gk @=(&diff)?'[czz':'gk'<CR>
 
 autocmd FileType qf nnoremap <buffer> <silent> q :q<CR> | setlocal nowrap
 autocmd FileType help nnoremap <buffer> <silent> q :q<CR> | vertical resize 85;
