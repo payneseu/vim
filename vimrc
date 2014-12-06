@@ -56,6 +56,8 @@ set incsearch
 set hidden
 set diffopt=filler,vertical
 
+"set list
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set ttymouse=xterm2
 set mouse=a
 set splitbelow
@@ -133,11 +135,14 @@ nmap <	<C-w>3<
 nmap >	<C-w>3>
 nmap =	<C-w>=
 
-noremap <SPACE>	<C-F>
-noremap <S-SPACE>	<C-B>
-noremap <BS>	<C-B>
-noremap <A-n>	gt
-noremap <A-p>	gT
+nnoremap <C-D>	M<C-D>
+nnoremap <C-U>	M<C-U>
+
+nnoremap <SPACE>	<C-F>
+nnoremap <S-SPACE>	<C-B>
+nnoremap <BS>	<C-B>
+nnoremap <A-n>	gt
+nnoremap <A-p>	gT
 "nmap <A-TAB>	:bn<CR>
 " map <A-TAB> Alt+TAB  
 "noremap <A-S-TAB> "input C-V then input key sequence to
@@ -148,7 +153,7 @@ nnoremap  :bp<CR>
 "nmap <A-SPACE>	:b#<CR>
 "nmap <Leader>d	:bd<CR>
 "" keymappig for register operations
-noremap <Leader>r	:registers<CR>
+nnoremap <Leader>r	:registers<CR>
 "noremap <Leader>x	:<C-p>
 nnoremap <Leader>a :
 
@@ -162,6 +167,10 @@ nnoremap n nzzzv
 nnoremap N	Nzzzv
 nnoremap g;	g;zzzv
 nnoremap g,	g,zzzv
+nnoremap zR	zRzz
+nnoremap zr	zrzz
+nnoremap zn znzz
+
 noremap <Leader>z	zmzvzz
 nmap \\ :nohlsearch<CR>
 " }}}
@@ -213,8 +222,9 @@ vmap Y	"*y
 let g:fuf_modesDisable = []
 let g:fuf_mrufile_maxItem = 400
 let g:fuf_mrucmd_maxItem = 400
-let g:fuf_file_exclude = '\v\~$|\.(DS_Store|o|exe|dll|bak|orig|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+let g:fuf_file_exclude = '\v\~$|\.(DS_Store|o|exe|dll|bak|orig|swp|pyc)$|(^|[/\\])\.(hg|git|bzr|svn)($|[/\\])'
 let g:fuf_buffertag_ctagsPath = '/usr/local/bin/ctags'
+let g:fuf_enumeratingLimit = 30
 nnoremap <silent> sj     :FufBuffer<CR>
 nnoremap <silent> sk     :FufFileWithCurrentBufferDir<CR>
 nnoremap <silent> sK     :FufFileWithFullCwd<CR>
@@ -246,8 +256,8 @@ nnoremap <silent> s}     :FufBufferTagWithCursorWord!<CR>
 "vnoremap <silent> s.     :FufBufferTagAllWithSelectedText!<CR>
 "vnoremap <silent> s>     :FufBufferTagAllWithSelectedText<CR>
 "nnoremap <silent> s]     :FufBufferTagAllWithCursorWord!<CR>
-nnoremap <silent> sg     :FufTaggedFile<CR>
-nnoremap <silent> sG     :FufTaggedFile!<CR>
+nnoremap <silent> sG     :FufTaggedFile<CR>
+nnoremap <silent> sg     :FufTaggedFile!<CR>
 nnoremap <silent> so     :FufJumpList<CR>
 nnoremap <silent> sp     :FufChangeList<CR>
 nnoremap <silent> sq     :FufQuickfix<CR>
@@ -263,8 +273,8 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_auto_trigger = 1
 let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_enable_diagnostic_signs = 0
 set completeopt-=preview   " disable preview windows for completion
 let g:ycm_confirm_extra_conf = 0
 " delete default mapping for <leader>d
@@ -409,6 +419,9 @@ nmap <Plug>DisableBookmarkClearAll	<Plug>BookmarkClearAll
 nmap mm <Plug>BookmarkToggle
 "  nmap ,i <Plug>BookmarkAnnotate
 nmap \m <Plug>BookmarkShowAll
+let g:bookmark_center = 1
+let g:bookmark_auto_close = 1
+"let g:bookmark_highlight_lines = 1
 "  nmap ,j <Plug>BookmarkNext
 "  nmap ,k <Plug>BookmarkPrev
 "  nmap ,c <Plug>BookmarkClear
@@ -421,6 +434,7 @@ autocmd BufNewFile,BufRead *.log set filetype=logecc
 autocmd BufNewFile,BufRead *.log.[0-9] set filetype=logecc
 autocmd BufNewFile,BufRead *tmux.conf set filetype=tmux
 autocmd BufNewFile,BufRead SConstruct set filetype=python
+autocmd BufNewFile,BufRead SConscript* set filetype=python
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " http://vim.wikia.com/wiki/Update_the_diff_view_automatically
 autocmd InsertLeave,BufWritePost,CursorHold * if &diff == 1 | diffupdate | endif
@@ -430,7 +444,7 @@ autocmd BufWinEnter *.svn-base setlocal nomodifiable
 autocmd WinEnter * nnoremap <buffer> gj @=(&diff)?']czz':'gj'<CR> |
 	\ nnoremap <buffer> gk @=(&diff)?'[czz':'gk'<CR>
 
-autocmd FileType qf nnoremap <buffer> <silent> q :q<CR> | setlocal nowrap
+autocmd FileType qf nnoremap <buffer> <silent> q :q<CR> | setlocal nowrap | setlocal nocursorline
 autocmd FileType help nnoremap <buffer> <silent> q :q<CR> | vertical resize 85;
 autocmd FileType c,cpp setlocal foldmethod=syntax |
     \ let b:AutoClosePairs = AutoClose#DefaultPairsModified("\"", "{}") |
@@ -553,7 +567,7 @@ nnoremap \d :call DiffToggle()<CR>
 " }}}
 
 "nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"6j")<CR>
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 "noremap <Leader>d	@=(&diff)?':diffoff':":VCSVimDiff"<CR><CR>
 
 " https://bitbucket.org/sjl/dotfiles/src/tip/vim/vimrc
@@ -584,6 +598,10 @@ iabbrev		"}   " }}}
 " m
 nnoremap B ^
 nnoremap E $
+nnoremap <C-N>	:cn<CR>
+nnoremap <C-P>	:cp<CR>
 "http://dougblack.io/words/a-good-vimrc.html
 "nnoremap gV `[v`]
 set nostartofline   " don't jump to first character when paging
+set nowrap
+
